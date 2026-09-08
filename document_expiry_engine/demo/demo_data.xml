@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_type_passport" model="document.expiry.type">
+        <field name="name">Passport</field>
+        <field name="is_expiry_applicable">True</field>
+        <field name="default_validity_days">3650</field>
+    </record>
+    <record id="demo_type_license" model="document.expiry.type">
+        <field name="name">License</field>
+        <field name="is_expiry_applicable">True</field>
+        <field name="default_validity_days">1825</field>
+    </record>
+    <record id="demo_type_insurance" model="document.expiry.type">
+        <field name="name">Insurance</field>
+        <field name="is_expiry_applicable">True</field>
+        <field name="default_validity_days">365</field>
+    </record>
+    <record id="demo_type_contract" model="document.expiry.type">
+        <field name="name">Contract</field>
+        <field name="is_expiry_applicable">True</field>
+        <field name="default_validity_days">365</field>
+    </record>
+    <record id="demo_type_certificate" model="document.expiry.type">
+        <field name="name">Certificate</field>
+        <field name="is_expiry_applicable">True</field>
+        <field name="default_validity_days">730</field>
+    </record>
+    <record id="demo_type_other" model="document.expiry.type">
+        <field name="name">Other</field>
+        <field name="is_expiry_applicable">False</field>
+    </record>
+
+    <record id="demo_rule_insurance_30" model="document.expiry.reminder.rule">
+        <field name="document_type_id" ref="demo_type_insurance"/>
+        <field name="days_before">30</field>
+    </record>
+    <record id="demo_rule_insurance_7" model="document.expiry.reminder.rule">
+        <field name="document_type_id" ref="demo_type_insurance"/>
+        <field name="days_before">7</field>
+    </record>
+    <record id="demo_rule_license_15" model="document.expiry.reminder.rule">
+        <field name="document_type_id" ref="demo_type_license"/>
+        <field name="days_before">15</field>
+    </record>
+
+    <record id="demo_doc_1" model="document.expiry.document">
+        <field name="name">Sample Vehicle Insurance</field>
+        <field name="document_type_id" ref="demo_type_insurance"/>
+        <field name="document_number">INS-DEMO-001</field>
+        <field name="issue_date" eval="(DateTime.today() - relativedelta(days=340)).strftime('%Y-%m-%d')"/>
+        <field name="expiry_date" eval="(DateTime.today() + relativedelta(days=25)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_doc_2" model="document.expiry.document">
+        <field name="name">Sample Driving License</field>
+        <field name="document_type_id" ref="demo_type_license"/>
+        <field name="document_number">LIC-DEMO-002</field>
+        <field name="issue_date" eval="(DateTime.today() - relativedelta(days=1800)).strftime('%Y-%m-%d')"/>
+        <field name="expiry_date" eval="(DateTime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_doc_3" model="document.expiry.document">
+        <field name="name">Sample Service Contract</field>
+        <field name="document_type_id" ref="demo_type_contract"/>
+        <field name="document_number">CON-DEMO-003</field>
+        <field name="issue_date" eval="(DateTime.today() - relativedelta(days=200)).strftime('%Y-%m-%d')"/>
+        <field name="expiry_date" eval="(DateTime.today() + relativedelta(days=165)).strftime('%Y-%m-%d')"/>
+    </record>
+</odoo>

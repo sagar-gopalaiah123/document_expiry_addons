@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="document_expiry_engine.Dashboard">
+        <div class="o_document_expiry_dashboard">
+            <div class="o_ded_header d-flex justify-content-between align-items-center flex-wrap">
+                <div>
+                    <h2 class="mb-0"><i class="fa fa-file-text-o me-2" role="img" aria-label="Documents"/>Document Expiry Dashboard</h2>
+                    <div class="text-muted small" t-if="state.lastUpdated">
+                        Last updated at <t t-esc="state.lastUpdated"/>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-outline-primary o_ded_refresh" t-on-click="refresh" t-att-disabled="state.loading">
+                    <i class="fa fa-refresh" t-att-class="{'fa-spin': state.loading}"/> Refresh
+                </button>
+            </div>
+
+            <div t-if="state.loading and !state.lastUpdated" class="o_ded_loading text-muted mt-4">
+                <i class="fa fa-spinner fa-spin me-2"/>Loading dashboard…
+            </div>
+
+            <t t-if="state.lastUpdated">
+                <!-- KPI Cards -->
+                <div class="row g-3 mb-4 mt-1">
+                    <t t-foreach="['total','valid','expiring_soon','expired']" t-as="k" t-key="k">
+                        <div class="col-6 col-lg-3">
+                            <div t-attf-class="o_ded_kpi_card o_ded_kpi_{{k}} shadow-sm rounded p-3"
+                                 t-on-click="() => this.onKpiClick(k)">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="o_ded_kpi_value fs-2 fw-bold" t-esc="state.kpis[k]"/>
+                                        <div class="o_ded_kpi_label text-muted"><t t-esc="kpiMeta[k].label"/></div>
+                                    </div>
+                                    <div class="o_ded_kpi_icon" t-attf-style="color: {{kpiMeta[k].color}}">
+                                        <i t-attf-class="fa {{kpiMeta[k].icon}} fa-2x"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <t t-foreach="['today','in_7','in_30']" t-as="k" t-key="k">
+                        <div class="col-12 col-lg-4">
+                            <div t-attf-class="o_ded_kpi_card o_ded_kpi_mini shadow-sm rounded p-3 d-flex align-items-center justify-content-between"
+                                 t-on-click="() => this.onKpiClick(k)">
+                                <div>
+                                    <div class="o_ded_kpi_value fs-4 fw-bold" t-esc="state.kpis[k]"/>
+                                    <div class="o_ded_kpi_label text-muted"><t t-esc="kpiMeta[k].label"/></div>
+                                </div>
+                                <i t-attf-class="fa {{kpiMeta[k].icon}} fa-lg" t-attf-style="color: {{kpiMeta[k].color}}"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="row g-3">
+                    <!-- Status breakdown -->
+                    <div class="col-12 col-lg-4">
+                        <div class="o_ded_panel shadow-sm rounded p-3 h-100">
+                            <h5 class="mb-3"><i class="fa fa-pie-chart me-2 text-muted"/>Status-wise Analysis</h5>
+                            <div t-if="!state.statusBreakdown.length" class="text-muted small">No documents yet.</div>
+                            <t t-foreach="state.statusBreakdown" t-as="item" t-key="item.key">
+                                <div class="o_ded_bar_row mb-2" t-on-click="() => this.onStatusClick(item.key, item.label)">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span>
+                                            <i t-attf-class="fa {{item.icon}} me-1" t-attf-style="color: {{item.color}}"/>
+                                            <t t-esc="item.label"/>
+                                        </span>
+                                        <span class="text-muted small">
+                                            <t t-esc="item.count"/> (<t t-esc="item.pct"/>%)
+                                        </span>
+                                    </div>
+                                    <div class="o_ded_bar_track">
+                                        <div class="o_ded_bar_fill" t-attf-style="width: {{item.barPct}}%; background-color: {{item.color}}"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Type breakdown -->
+                    <div class="col-12 col-lg-4">
+                        <div class="o_ded_panel shadow-sm rounded p-3 h-100">
+                            <h5 class="mb-3"><i class="fa fa-tags me-2 text-muted"/>Document Type Analysis</h5>
+                            <div t-if="!state.typeBreakdown.length" class="text-muted small">No documents yet.</div>
+                            <t t-foreach="state.typeBreakdown" t-as="item" t-key="item.id or 'none'">
+                                <div class="o_ded_bar_row mb-2" t-on-click="() => this.onTypeClick(item.id, item.label)">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span><t t-esc="item.label"/></span>
+                                        <span class="text-muted small">
+                                            <t t-esc="item.count"/> (<t t-esc="item.pct"/>%)
+                                        </span>
+                                    </div>
+                                    <div class="o_ded_bar_track">
+                                        <div class="o_ded_bar_fill o_ded_bar_fill_type" t-attf-style="width: {{item.barPct}}%"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Expiry timeline -->
+                    <div class="col-12 col-lg-4">
+                        <div class="o_ded_panel shadow-sm rounded p-3 h-100">
+                            <h5 class="mb-3"><i class="fa fa-line-chart me-2 text-muted"/>Expiry Timeline</h5>
+                            <t t-foreach="state.timeline" t-as="item" t-key="item.key">
+                                <div class="o_ded_bar_row mb-2" t-on-click="() => this.onTimelineClick(item)">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span><t t-esc="item.label"/></span>
+                                        <span class="text-muted small"><t t-esc="item.value"/></span>
+                                    </div>
+                                    <div class="o_ded_bar_track">
+                                        <div class="o_ded_bar_fill o_ded_bar_fill_timeline" t-attf-style="width: {{item.barPct}}%"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

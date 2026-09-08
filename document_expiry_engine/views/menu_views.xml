@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_document_expiry_root" name="Document Expiry"
+              sequence="60" web_icon="document_expiry_engine,static/description/icon.png"/>
+
+    <menuitem id="menu_document_expiry_dashboard" name="Dashboard"
+              parent="menu_document_expiry_root" sequence="10"
+              action="action_document_expiry_dashboard"/>
+
+    <menuitem id="menu_document_expiry_documents" name="Documents"
+              parent="menu_document_expiry_root" sequence="20"
+              action="action_document_expiry_document"/>
+
+    <menuitem id="menu_document_expiry_configuration" name="Configuration"
+              parent="menu_document_expiry_root" sequence="90"
+              groups="document_expiry_engine.group_document_expiry_manager"/>
+
+    <menuitem id="menu_document_expiry_type" name="Document Types"
+              parent="menu_document_expiry_configuration" sequence="10"
+              action="action_document_expiry_type"/>
+
+    <menuitem id="menu_document_expiry_settings" name="Settings"
+              parent="menu_document_expiry_configuration" sequence="20"
+              action="action_document_expiry_config_settings"
+              groups="document_expiry_engine.group_document_expiry_admin"/>
+</odoo>

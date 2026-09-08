@@ -1,0 +1,77 @@
+.o_document_expiry_dashboard {
+    padding: 24px;
+    background-color: #f8f9fa;
+    min-height: 100%;
+
+    .o_ded_header {
+        margin-bottom: 8px;
+
+        h2 {
+            font-weight: 600;
+        }
+    }
+
+    .o_ded_refresh {
+        white-space: nowrap;
+    }
+
+    .o_ded_kpi_card {
+        cursor: pointer;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-left: 4px solid transparent;
+        transition: transform 0.12s ease-in-out, box-shadow 0.12s ease-in-out;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10) !important;
+        }
+    }
+
+    .o_ded_kpi_total { border-left-color: #3876a3; }
+    .o_ded_kpi_valid { border-left-color: #2e7d32; }
+    .o_ded_kpi_expiring_soon { border-left-color: #ed6c02; }
+    .o_ded_kpi_expired { border-left-color: #d32f2f; }
+
+    .o_ded_kpi_mini {
+        border-left: 3px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .o_ded_panel {
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .o_ded_bar_row {
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: 6px;
+        transition: background-color 0.12s ease-in-out;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.035);
+        }
+    }
+
+    .o_ded_bar_track {
+        height: 7px;
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }
+
+    .o_ded_bar_fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease-in-out;
+        background-color: #90a4ae;
+    }
+
+    .o_ded_bar_fill_type {
+        background-color: #3876a3;
+    }
+
+    .o_ded_bar_fill_timeline {
+        background-color: #7b1fa2;
+    }
+}

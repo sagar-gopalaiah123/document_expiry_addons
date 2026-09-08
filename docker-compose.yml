@@ -1,0 +1,45 @@
+services:
+
+  db:
+    image: postgres:15
+    container_name: document_expiry_db
+
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    restart: unless-stopped
+
+
+  odoo:
+    image: odoo:18.0
+    container_name: document_expiry_odoo
+
+    depends_on:
+      - db
+
+    ports:
+      - "1324:8069"
+
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./document_expiry_engine:/mnt/extra-addons/document_expiry_engine
+
+    environment:
+      HOST: db
+      PORT: 5432
+      USER: odoo
+      PASSWORD: odoo
+
+    restart: unless-stopped
+
+
+volumes:
+
+  postgres_data:
+  odoo_data:
