@@ -7,4 +7,4 @@ from . import res_config_settings
 from . import hr_employee
 from . import res_partner
 from . import fleet_vehicle
-from . import account_asset
+# from . import account_asset

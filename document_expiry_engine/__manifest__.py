@@ -27,7 +27,7 @@ Features
     'author': 'Prixgen Tech Solutions Pvt. Ltd.',
     'website': 'https://www.prixgen.com',
     'license': 'LGPL-3',
-    'depends': ['base', 'base_setup', 'mail', 'hr', 'fleet', 'account_asset'],
+    'depends': ['base', 'base_setup', 'mail', 'hr', 'fleet'],
     'data': [
         'security/document_expiry_security.xml',
         'security/ir.model.access.csv',
@@ -39,7 +39,7 @@ Features
         'views/hr_employee_views.xml',
         'views/res_partner_views.xml',
         'views/fleet_vehicle_views.xml',
-        'views/account_asset_views.xml',
+        # 'views/account_asset_views.xml',
         'views/dashboard_views.xml',
         'views/menu_views.xml',
     ],
