@@ -31,8 +31,8 @@ Features
     'data': [
         'security/document_expiry_security.xml',
         'security/ir.model.access.csv',
-        'data/ir_cron.xml',
-        'data/mail_template.xml',
+        # 'data/ir_cron.xml',
+        # 'data/mail_template.xml',
         'views/document_type_views.xml',
         'views/expiry_document_views.xml',
         'views/res_config_settings_views.xml',
